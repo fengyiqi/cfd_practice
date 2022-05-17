@@ -1,6 +1,8 @@
 # CFD_Julia Python Implementation
 
-This repo is the Python and C++ version of [CFD_Julia](https://github.com/surajp92/CFD_Julia).
+This repo is the Python of [CFD_Julia](https://github.com/surajp92/CFD_Julia).
+
+(C++ version may be implemented later.)
 
 The corrigendum of its paper, [CFD Julia: A Learning Module Structuring an Introductory Course on Computational Fluid Dynamics](https://www.mdpi.com/2311-5521/4/3/159) is also provided.
 

@@ -1,6 +1,6 @@
 # CFD_Julia Python Implementation
 
-This repo is the Python of [CFD_Julia](https://github.com/surajp92/CFD_Julia).
+This repo is the Python implementation of [CFD_Julia](https://github.com/surajp92/CFD_Julia).
 
 (C++ version may be implemented later.)
 

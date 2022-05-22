@@ -1,5 +1,3 @@
-import numpy as np
-
 def rk3(stage, u, rhs, dt, temp=None):
     if stage == 1:
         return u + dt * rhs

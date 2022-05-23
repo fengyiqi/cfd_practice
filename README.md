@@ -15,4 +15,5 @@ see corresponding jupyter notebook:
 - [2.4 Implicit Compact Pade (ICP) Scheme](./jupyter/04_Heat_Equation_ICP/icp.ipynb)
 - [3.1 WENO-5 Scheme](./jupyter/05_Inviscid_Burgers_WENO/weno5_dirichlet.ipynb)
 - [4.2 Riemann Solver: Rusanov Scheme](./jupyter/08_Inviscid_Burgers_Rieman/rusanov_riemann_periodic.ipynb)
-- [5.1 Roe’s Riemann Solver](./jupyter/09_Euler_1D_Roe/roe.ipynb)
+- [5   One-Dimensional Euler Solver](./jupyter/09_Euler_1D_Roe/roe.ipynb)
+- [5.2 HLLC Riemann Solver](./jupyter/10_Euler_1D_HLLC/hllc.ipynb)

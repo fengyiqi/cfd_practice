@@ -66,7 +66,7 @@ Note:
   
     $$\beta_2 = \frac{13}{12}(u_i-2u_{i+1}+u_{i+2})^2 + \frac{1}{4}(3u_i - 4u_{i+1}+u_{i+2})^2$$
 
-<!-- ### 4.2 Riemann Solver: Rusanov Scheme
+### 4.2 Riemann Solver: Rusanov Scheme
 
 - Equation 59:
 
@@ -74,7 +74,7 @@ Note:
 
 - Equation 60:
 
-    $$c_{i+1/2} = max(|u_i|, |u_{i+1}|)$$ -->
+    $$c_{i+1/2} = max(|u_i|, |u_{i+1}|)$$
 
 ### 5 One-Dimensional Euler Solver
 
@@ -93,7 +93,7 @@ Note:
     $$p = (\gamma-1)(q_3 - \frac{q_2^2}{2q_1})$$
 
 
-### 5.2 HLLC Riemann Solver
+### 5.2 HLLC Riemann Solver (can not render last two expressions, see tutorial for full version)
 
 - Equation 81, $F=$
     
@@ -102,6 +102,6 @@ Note:
     $$F^R,\qquad if\ S_R \leq 0$$
 
     $$\frac{S_*(S_L u_L - F^L) + S_L P_{LR} D_*}{S_L - S_*},\qquad if\ S_L \leq 0\ and\ S_* \geq 0$$
-
+    
     $$\frac{S_*(S_R u_R - F^R) + S_R P_{LR} D_*}{S_R - S_*},\qquad if\ S_R \geq 0\ and\ S_* \leq 0$$ 
 

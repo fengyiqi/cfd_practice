@@ -24,6 +24,7 @@ Note:
 - [10. 1D Euler equations: HLLC solver, WENO5, RK3 for time integration](./jupyter/10_Euler_1D_HLLC/hllc.ipynb)
 - [11. 1D Euler equations: Rusanov solver, WENO5, RK3 for time integration](./jupyter/11_Euler_1D_Rusanov/rusanov.ipynb)
 - [12. 2D Poisson equation: Finite difference fast Fourier transform (FFT) based direct solver](./jupyter/12_Poisson_Solver_FFT/fft.ipynb)
+- [13. 2D Poisson equation: Spectral fast Fourier transform (FFT) based direct solver](./jupyter/13_Poisson_Solver_FFT_Spectral/fft_spectral.ipynb)
 
 ## Corrigendum 
 

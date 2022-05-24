@@ -95,7 +95,7 @@ Note:
 
 ### 5.2 HLLC Riemann Solver
 
-- Equation 81:
+- Equation 81
 
     $$ 
     \begin{align*}

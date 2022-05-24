@@ -97,8 +97,11 @@ Note:
 
 - Equation 81, $F=$
     
-    $$F^L,\qquad if\ S_L \geq 0 $$
+    $$F^L,\qquad if\ S_L \geq 0$$
+
     $$F^R,\qquad if\ S_R \leq 0$$
+
     $$\frac{S_*(S_L u_L - F^L) + S_L P_{LR} D_*}{S_L - S_*},\qquad if\ S_L \leq 0\ and\ S_* \geq 0$$
+    
     $$\frac{S_*(S_R u_R - F^R) + S_R P_{LR} D_*}{S_R - S_*},\qquad if\ S_R \geq 0\ and\ S_* \leq 0$$ 
 

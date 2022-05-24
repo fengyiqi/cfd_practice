@@ -80,12 +80,22 @@ Note:
 
 - In Equation 62, an important step that derives $F$ with respect to $q$ is missed.
 
+    $$F = 
+    \begin{Bmatrix}
+    q_2 \\
+    \frac{q_2^2}{q_1} + p \\
+    \frac{q_2 q_3}{q_1} + p \frac{q_2}{q_1}
+    \end{Bmatrix}
+    $$
+    and
+    $$p = (\gamma-1)(q_3 - \frac{q_2^2}{2q_1})$$
+
     $$F = \left\{
-    \begin{align*}
+    \begin{aligned}
     & q_2 \\
     & \frac{q_2^2}{q_1} + p \\
     & \frac{q_2 q_3}{q_1} + p \frac{q_2}{q_1}
-    \end{align*}
+    \end{aligned}
     \right.
     $$
     and

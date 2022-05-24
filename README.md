@@ -92,30 +92,16 @@ Note:
 
     $$p = (\gamma-1)(q_3 - \frac{q_2^2}{2q_1})$$
 
-    $$F = \left\{
-    \begin{matrix}
-    q_2 \\
-    \frac{q_2^2}{q_1} + p \\
-    \frac{q_2 q_3}{q_1} + p \frac{q_2}{q_1}
-    \end{matrix}
-    \right.
-    $$
-
-    and
-    
-    $$p = (\gamma-1)(q_3 - \frac{q_2^2}{2q_1})$$
-
 
 ### 5.2 HLLC Riemann Solver
 
 - Equation 81:
 
-    $$F = \left\{
-    \begin{align*}
-    & F^L,                                                   & if\ S_L \geq 0 \\
-    & F^R,                                                   & if\ S_R \leq 0 \\
-    & \frac{S_*(S_L u_L - F^L) + S_L P_{LR} D_*}{S_L - S_*}, & if\ S_L \leq 0\ and\ S_* \geq 0 \\
-    & \frac{S_*(S_R u_R - F^R) + S_R P_{LR} D_*}{S_R - S_*}, & if\ S_R \geq 0\ and\ S_* \leq 0  
-    \end{align*}
-    \right.
+    $$F = 
+    \begin{Bmatrix}
+    F^L,                                                   & if\ S_L \geq 0 \\
+    F^R,                                                   & if\ S_R \leq 0 \\
+    \frac{S_*(S_L u_L - F^L) + S_L P_{LR} D_*}{S_L - S_*}, & if\ S_L \leq 0\ and\ S_* \geq 0 \\
+    \frac{S_*(S_R u_R - F^R) + S_R P_{LR} D_*}{S_R - S_*}, & if\ S_R \geq 0\ and\ S_* \leq 0  
+    \end{Bmatrix}
     $$

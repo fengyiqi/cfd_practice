@@ -86,7 +86,7 @@ Note:
     & \frac{q_2^2}{q_1} + p \\
     & \frac{q_2 q_3}{q_1} + p \frac{q_2}{q_1}
     \end{align*}
-    \right\}
+    \right.
     $$
     and
     $$p = (\gamma-1)(q_3 - \frac{q_2^2}{2q_1})$$

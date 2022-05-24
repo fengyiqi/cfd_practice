@@ -97,7 +97,7 @@ Note:
 
 - Equation 81:
 
-    $$F = 
+    $$ 
     \begin{Bmatrix}
     F^L,                                                   & if\ S_L \geq 0 \\
     F^R,                                                   & if\ S_R \leq 0 \\

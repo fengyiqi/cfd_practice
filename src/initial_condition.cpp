@@ -39,11 +39,11 @@ void InitialCondition::DefineInitialPrimitiveStates(const double (&x)[GI::TCX()]
 
 void InitialCondition::ConvertToConservativeState(const double (&primitives)[FI::PN()][GI::TCX()], double (&conservatives)[FI::CN()][GI::TCX()]) {
     for (unsigned int i = 0; i < GI::TCX(); i++) {
-        conservatives[ConservativePool::Mass][i] = primitives[PrimeStatePool::Density][i];
+        conservatives[ConservativePool::Mass][i]      = primitives[PrimeStatePool::Density][i];
         conservatives[ConservativePool::MomentumX][i] = primitives[PrimeStatePool::Density][i] * primitives[PrimeStatePool::VelocityX][i];
-        conservatives[ConservativePool::Energy][i] = primitives[PrimeStatePool::Density][i] * 
-                                                     (primitives[PrimeStatePool::Pressure][i] / (primitives[PrimeStatePool::Density][i] * (gamma_ - 1.0)) + 
-                                                     0.5 * primitives[PrimeStatePool::VelocityX][i] * primitives[PrimeStatePool::VelocityX][i]);  
+        conservatives[ConservativePool::Energy][i]    = primitives[PrimeStatePool::Density][i] * 
+                                                        (primitives[PrimeStatePool::Pressure][i] / (primitives[PrimeStatePool::Density][i] * (gamma_ - 1.0)) + 
+                                                        0.5 * primitives[PrimeStatePool::VelocityX][i] * primitives[PrimeStatePool::VelocityX][i]);  
     }
 }
 

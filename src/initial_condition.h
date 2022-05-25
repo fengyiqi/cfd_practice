@@ -17,11 +17,14 @@ public:
     InitialCondition() = delete;
     InitialCondition(const double& x_start, const double& x_end);
     // InitialCondition()
-    inline double GetGamma() const { return gamma_; }
     void DefineCoordinate(double (&x)[GI::TCX()]);
     void DefineInitialPrimitiveStates(const double (&x)[GI::TCX()], double (&primitives)[FI::PN()][GI::TCX()]);
     void ConvertToConservativeState(const double (&primitives)[FI::PN()][GI::TCX()], double (&conservatives)[FI::CN()][GI::TCX()]);
     void TestInitialCondition();
+    inline double GetCellSize() const { return cell_size_; }
+    inline double GetXStart() const { return start_; }
+    inline double GetXEnd() const { return end_; }
+    inline double GetGamma() const { return gamma_; }
 };
 
 #endif

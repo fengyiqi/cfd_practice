@@ -37,6 +37,16 @@ void InitialCondition::DefineInitialPrimitiveStates(const double (&x)[GI::TCX()]
     boundary_condition_.ApplySymmetricBondaryCondition(primitives);
 }
 
+void InitialCondition::ConvertToConservativeState(const double (&primitives)[FI::PN()][GI::TCX()], double (&conservatives)[FI::CN()][GI::TCX()]) {
+    for (unsigned int i = 0; i < GI::TCX(); i++) {
+        conservatives[ConservativePool::Mass][i] = primitives[PrimeStatePool::Density][i];
+        conservatives[ConservativePool::MomentumX][i] = primitives[PrimeStatePool::Density][i] * primitives[PrimeStatePool::VelocityX][i];
+        conservatives[ConservativePool::Energy][i] = primitives[PrimeStatePool::Density][i] * 
+                                                     (primitives[PrimeStatePool::Pressure][i] / (primitives[PrimeStatePool::Density][i] * (gamma_ - 1.0)) + 
+                                                     0.5 * primitives[PrimeStatePool::VelocityX][i] * primitives[PrimeStatePool::VelocityX][i]);  
+    }
+}
+
 void InitialCondition::TestInitialCondition(){
     std::cout << "Test InitialCondition ... \n";
     std::cout << "\t(x_start, x_end) = (" << start_ << ", " << end_ << ")\n";
@@ -45,8 +55,10 @@ void InitialCondition::TestInitialCondition(){
 
     double x[GI::TCX()];
     double primitives[FI::PN()][GI::TCX()];
+    double conservatives[FI::PN()][GI::TCX()];
     DefineCoordinate(x);
     DefineInitialPrimitiveStates(x, primitives);
+    ConvertToConservativeState(primitives, conservatives);
 
     std::cout << "\tcoordinate: \n\t(";
     for (unsigned int i = 0; i < GI::GCX() + 1; i++)
@@ -58,13 +70,23 @@ void InitialCondition::TestInitialCondition(){
 
     std::cout << "Primitive States with Symmetric Boundary ... \n";
     for (unsigned int i = 0; i < FI::PN(); i++){
-    std::cout << "\t(";
-    for (unsigned int j = 0; j < GI::GCX() + 1; j++)
-        std::cout << primitives[i][j] << " ";
-    std::cout << "... ";
-    for (unsigned int j = GI::LIXC(); j < GI::TCX(); j++)
-        std::cout << primitives[i][j] << " ";
-    std::cout << ")\n"; 
-}
+        std::cout << "\t(";
+        for (unsigned int j = 0; j < GI::GCX() + 1; j++)
+            std::cout << primitives[i][j] << " ";
+        std::cout << "... ";
+        for (unsigned int j = GI::LIXC(); j < GI::TCX(); j++)
+            std::cout << primitives[i][j] << " ";
+        std::cout << ")\n"; 
+    }
 
+    std::cout << "Conservative States with Symmetric Boundary ... \n";
+    for (unsigned int i = 0; i < FI::PN(); i++){
+        std::cout << "\t(";
+        for (unsigned int j = 0; j < GI::GCX() + 1; j++)
+            std::cout << conservatives[i][j] << " ";
+        std::cout << "... ";
+        for (unsigned int j = GI::LIXC(); j < GI::TCX(); j++)
+            std::cout << conservatives[i][j] << " ";
+        std::cout << ")\n"; 
+    }
 }

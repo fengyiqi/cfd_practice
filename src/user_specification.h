@@ -29,7 +29,7 @@ public:
 
 };
 
-enum class EquationPool {
+enum ConservativePool {
     Mass,
     MomentumX,
     Energy,
@@ -46,7 +46,7 @@ using GI = GridInformation;
 class FieldInformation {
     // Primitive states number
     static constexpr unsigned int primitive_states_number = 3;
-    static constexpr unsigned int equation_number = 3;
+    static constexpr unsigned int conservative_states_number = 3;
 
 public:
     FieldInformation() = delete;
@@ -57,7 +57,7 @@ public:
     FieldInformation& operator=(FieldInformation&&) = delete;
 
     static constexpr unsigned int PN() { return primitive_states_number; }
-    static constexpr unsigned int EN() { return equation_number; }
+    static constexpr unsigned int CN() { return conservative_states_number; }
 
 };
 

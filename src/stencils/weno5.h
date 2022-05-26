@@ -21,7 +21,7 @@ class WENO5 {
     static constexpr double stencil_coef_21_ = 5.0 / 6.0;
     static constexpr double stencil_coef_22_ = - 1.0 / 6.0;
 
-    static constexpr double epsilon_ = 1e-10;
+    static constexpr double epsilon_ = 1e-6;
 
     static constexpr unsigned int stencil_size_ = 5;
 public:

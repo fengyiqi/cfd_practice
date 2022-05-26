@@ -1,8 +1,9 @@
 #include "initial_condition.h"
 #include <iostream>
 
-InitialCondition::InitialCondition(const double& x_start, const double& x_end): 
-    start_(x_start), end_(x_end), length_(x_end - x_start), cell_size_((x_end - x_start) / GI::ICX()) {}
+InitialCondition::InitialCondition(const double& x_start, const double& x_end, const double& t_end): 
+    start_(x_start), end_(x_end), t_end_(t_end), length_(x_end - x_start), cell_size_((x_end - x_start) / GI::ICX()) 
+    {std::cout << t_end_ << std::endl;}
 
 void InitialCondition::DefineCoordinate(double (&x)[GI::TCX()]){
     double x_start_cell_center = cell_size_ * 0.5;

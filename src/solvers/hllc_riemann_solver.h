@@ -7,11 +7,11 @@
 class HllcRiemannSolver {
     static constexpr unsigned int reconstruction_start_ = GI::FICX() - 3;
     static constexpr unsigned int reconstruction_end_   = reconstruction_start_ + GI::ICX() + 1;
-    WENO5 weno5;
+    WENO5 weno5_;
     // temporary solution
     static constexpr double gamma_ = 1.4;
 public:
-    HllcRiemannSolver() = default;
+    HllcRiemannSolver();
     ~HllcRiemannSolver() = default;
     double ConvertConservativesToFlux(const double (&conservatives)[FI::CN()], const unsigned int& state);
     void ComputeCellFaceFlux(const double (&conservatives)[FI::CN()][GI::TCX()], double (&flux)[FI::CN()][GI::ICX() + 1]);

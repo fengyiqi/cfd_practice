@@ -2,6 +2,8 @@
 #include <cmath>
 #include <algorithm>
 
+HllcRiemannSolver::HllcRiemannSolver() : weno5_(WENO5()) {}
+
 void HllcRiemannSolver::ComputeCellFaceFlux(const double (&conservatives)[FI::CN()][GI::TCX()], double (&flux)[FI::CN()][GI::ICX() + 1]) {
     
     double reconstructed_conservatives_l[FI::CN()];
@@ -13,14 +15,14 @@ void HllcRiemannSolver::ComputeCellFaceFlux(const double (&conservatives)[FI::CN
 
     for (unsigned int i = 0; i < GI::ICX() + 1; i++){
         for (unsigned int cs = ConservativePool::Mass; cs < FI::CN(); cs++){
-            reconstructed_conservatives_l[cs] = weno5.Apply({
+            reconstructed_conservatives_l[cs] = weno5_.Apply({
                 conservatives[cs][reconstruction_start_ + i], 
                 conservatives[cs][reconstruction_start_ + i + 1], 
                 conservatives[cs][reconstruction_start_ + i + 2], 
                 conservatives[cs][reconstruction_start_ + i + 3], 
                 conservatives[cs][reconstruction_start_ + i + 4] 
                 });
-            reconstructed_conservatives_r[cs] = weno5.Apply({
+            reconstructed_conservatives_r[cs] = weno5_.Apply({
                 conservatives[cs][reconstruction_start_ + i + 5], 
                 conservatives[cs][reconstruction_start_ + i + 4], 
                 conservatives[cs][reconstruction_start_ + i + 3], 
@@ -69,12 +71,14 @@ void HllcRiemannSolver::ComputeCellFaceFlux(const double (&conservatives)[FI::CN
 double HllcRiemannSolver::ConvertConservativesToFlux(const double (&conservatives)[FI::CN()], const unsigned int& state) {
     if (state == ConservativePool::Mass) 
         return conservatives[ConservativePool::Mass];
-    if (state == ConservativePool::MomentumX) {
+    else if (state == ConservativePool::MomentumX) {
         const double pressure = (gamma_ - 1) * (conservatives[ConservativePool::Energy] - 0.5 * conservatives[ConservativePool::MomentumX] * conservatives[ConservativePool::MomentumX] / conservatives[ConservativePool::Mass]);
         return (conservatives[ConservativePool::MomentumX] * conservatives[ConservativePool::MomentumX]) / conservatives[ConservativePool::Mass] + pressure;
     }
-    if (state == ConservativePool::Energy) {
+    else if (state == ConservativePool::Energy) {
         const double pressure = (gamma_ - 1) * (conservatives[ConservativePool::Energy] - 0.5 * conservatives[ConservativePool::MomentumX] * conservatives[ConservativePool::MomentumX] / conservatives[ConservativePool::Mass]);
         return (conservatives[ConservativePool::MomentumX] * conservatives[ConservativePool::Energy] + pressure * conservatives[ConservativePool::MomentumX]) / conservatives[ConservativePool::Mass];
     }
+    else
+        return 0.0;
 }

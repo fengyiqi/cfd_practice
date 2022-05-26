@@ -24,10 +24,11 @@ public:
 
     static constexpr unsigned int LIXC() { return ghost_cells + internal_cells - 1; }
 
-    static constexpr unsigned int GC() { return ghost_cells; }
     static constexpr unsigned int FHHX() { return ghost_cells + internal_cells; }
 
 };
+
+using GI = GridInformation;
 
 enum ConservativePool {
     Mass,
@@ -40,8 +41,6 @@ enum PrimeStatePool {
    VelocityX,
    Pressure,
 };
-
-using GI = GridInformation;
 
 class FieldInformation {
     // Primitive states number

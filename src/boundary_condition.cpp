@@ -12,9 +12,11 @@ void BoundaryCondition::ApplyPeriodicBondaryCondition(double (&buffer)[FI::PN()]
 }
 
 void BoundaryCondition::ApplySymmetricBondaryCondition(double (&buffer)[FI::PN()][GI::TCX()]) {
+    
     for (unsigned int i = 0; i < FI::PN(); i++)
         for (unsigned int j = 0; j < GI::GCX(); j++)
             buffer[i][j] = buffer[i][2 * GI::GCX() - 1 - j];
+
     for (unsigned int i = 0; i < FI::PN(); i++)
         for (unsigned int j = GI::FHHX(); j < GI::TCX(); j++)
             buffer[i][j] = buffer[i][GI::LIXC() - j + GI::FHHX()];

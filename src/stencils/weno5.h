@@ -21,7 +21,7 @@ class WENO5 {
     static constexpr double stencil_coef_21_ = 5.0 / 6.0;
     static constexpr double stencil_coef_22_ = - 1.0 / 6.0;
 
-    static constexpr double epsilon_ = 1e-6;
+    static constexpr double epsilon_ = 1e-10;
 
     static constexpr unsigned int stencil_size_ = 5;
 public:
@@ -51,8 +51,8 @@ public:
         const double w2 = alpha2 * one_alpha;
 
         return w0 * (stencil_coef_00_ * v0 + stencil_coef_01_ * v1 + stencil_coef_02_ * v2) + 
-            w1 * (stencil_coef_10_ * v1 + stencil_coef_11_ * v2 + stencil_coef_12_ * v3) + 
-            w2 * (stencil_coef_20_ * v2 + stencil_coef_21_ * v3 + stencil_coef_22_ * v4);
+               w1 * (stencil_coef_10_ * v1 + stencil_coef_11_ * v2 + stencil_coef_12_ * v3) + 
+               w2 * (stencil_coef_20_ * v2 + stencil_coef_21_ * v3 + stencil_coef_22_ * v4);
     }
     void Test();
 };

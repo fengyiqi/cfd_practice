@@ -1,4 +1,4 @@
-# CFD_Julia Python Implementation
+# CFD_Julia Python and C++ Implementation
 
 This repo is the Python implementation of [CFD_Julia](https://github.com/surajp92/CFD_Julia).
 
@@ -8,7 +8,6 @@ Personally, I am more interested in compressible flow solvers. Currently, the tu
 
 Note:
  - most recent updates can be found in branch/basic
- - C++ version may be implemented later
  - GitHub supports LaTeX mathematical expressions, finally!
 
 ## Content
@@ -23,6 +22,18 @@ Note:
 - [09. 1D Euler equations: Roe solver, WENO5, RK3 for time integration](./jupyter/09_Euler_1D_Roe/roe.ipynb)
 - [10. 1D Euler equations: HLLC solver, WENO5, RK3 for time integration](./jupyter/10_Euler_1D_HLLC/hllc.ipynb)
 - [11. 1D Euler equations: Rusanov solver, WENO5, RK3 for time integration](./jupyter/11_Euler_1D_Rusanov/rusanov.ipynb)
+- [12. 2D Poisson equation: Finite difference fast Fourier transform (FFT) based direct solver](./jupyter/12_Poisson_Solver_FFT/fft.ipynb)
+- [13. 2D Poisson equation: Spectral fast Fourier transform (FFT) based direct solver](./jupyter/13_Poisson_Solver_FFT_Spectral/fft_spectral.ipynb)
+
+## Compile C++ test code (Linux)
+```
+    git clone https://github.com/fengyiqi/cfd_practice.git
+    cd cfd_practice
+    mkdir build; cd build
+    cmake ..; make
+    ./CFD_Practice
+```
+Simulation results are stored in **build/sod.csv** that is posteprocessed by [plot_cpp_results](./plotting/plot_cpp_results.ipynb). 
 
 ## Corrigendum 
 

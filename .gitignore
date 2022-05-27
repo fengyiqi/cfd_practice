@@ -188,3 +188,5 @@ dmypy.json
 *.vsix
 
 .VSCodeCounter*
+# for CLion
+cmake-build-debug

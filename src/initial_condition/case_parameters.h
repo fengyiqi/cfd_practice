@@ -35,7 +35,7 @@ struct CaseSpecification {
 
 struct SodShockTube : public CaseSpecification {
     double t_start = 0.0;
-    double t_end = 0.0001;
+    double t_end = 0.2;
     double t_step = 0.0001;
     double x_start = 0.0;
     double x_end = 1.0;

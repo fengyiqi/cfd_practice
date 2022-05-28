@@ -3,13 +3,10 @@
 #include "user_specification.h"
 
 class BoundaryCondition {
-
 public:
     BoundaryCondition() = default;
     ~BoundaryCondition() = default;
-    void ApplyPeriodicBondaryCondition(double (&buffer)[FI::PN()][GI::TCX()]);
-    void ApplySymmetricBondaryCondition(double (&buffer)[FI::PN()][GI::TCX()]);
-    void TestBondaryCondition();
+    virtual void Apply(double (&buffer)[FI::PN()][GI::TCX()]) = 0;
 };
 
 #endif

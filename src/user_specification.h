@@ -3,7 +3,7 @@
 
 class GridInformation {
 
-    static constexpr unsigned int internal_cells = 400;
+    static constexpr unsigned int internal_cells = 200;
     static constexpr unsigned int ghost_cells = 4;
     static constexpr unsigned int total_cells = 2 * ghost_cells + internal_cells;
 

@@ -6,7 +6,6 @@
 
 class HllcRiemannSolver {
     static constexpr unsigned int reconstruction_start_ = GI::FICX() - 3;
-    static constexpr unsigned int reconstruction_end_   = reconstruction_start_ + GI::ICX() + 1;
     WENO5 weno5_;
     // temporary solution
     static constexpr double gamma_ = 1.4;

@@ -6,7 +6,7 @@ ComputationModule::ComputationModule(Block& block, HllcRiemannSolver& riemann_so
                     block_(block), 
                     runge_kutta_3_(runge_kutta_3), 
                     riemann_solver_(riemann_solver),
-                    start_time_(0.0) 
+                    start_time_(0.0)
 {}
 
 void ComputationModule::UpdateRightHandSide() {
@@ -17,12 +17,9 @@ void ComputationModule::UpdateRightHandSide() {
 }
 
 void ComputationModule::TimeIntegration() {
-    // for (unsigned int cs = 0; cs < FI::CN(); cs++)
-    //     for (unsigned int i = 0; i < GI::ICX(); i++)
-    //         block_.conservative_buffer_next_[cs][i] = 0.0;
     for (unsigned int stage = 0; stage < runge_kutta_3_.GetTotalStages(); stage++){
         runge_kutta_3_.Advance(stage, block_);
-        block_.boundary_condition_.ApplySymmetricBondaryCondition(block_.conservative_buffer_next_);
+        block_.boundary_condition_->Apply(block_.conservative_buffer_next_);
     }
 }
 
@@ -32,6 +29,7 @@ void ComputationModule::Solve() {
         UpdateRightHandSide();
         TimeIntegration();
         start_time_ += block_.t_step_;
+//        std::cout << start_time_ << std::endl;
         for (unsigned int cs = 0; cs < FI::CN(); cs++)
             for (unsigned int i = 0; i < GI::TCX(); i++)
                 block_.conservative_buffer_[cs][i] = block_.conservative_buffer_next_[cs][i];

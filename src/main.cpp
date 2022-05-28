@@ -1,5 +1,4 @@
-#include "initial_condition.h"
-#include "boundary_condition.h"
+#include "boundary_condition/boundary_condition.h"
 #include "stencils/weno5.h"
 #include "block.h"
 #include "computation_module.h"
@@ -9,11 +8,12 @@
 #include "output.h"
 #include <iostream>
 #include <string>
+#include <memory>
 
 int main() {
-    
-    InitialCondition initial_condition = InitialCondition(0, 1, 0.2);
-    Block block(initial_condition);
+    std::shared_ptr<CaseSpecification> sod_shock_tube = std::make_shared<SodShockTube>();
+    std::shared_ptr<BoundaryCondition> boundary_condition = std::make_shared<SymmetricBoundaryCondition>();
+    Block block(sod_shock_tube, boundary_condition);
     HllcRiemannSolver riemann_solver;
     RungeKutta3 runge_kutta_3;
 

@@ -33,7 +33,7 @@ Note:
     cmake ..; make
     ./CFD_Practice
 ```
-Simulation results are stored in **build/sod.csv** that is posteprocessed by [plot_cpp_results](./plotting/plot_cpp_results.ipynb). 
+Simulation results are stored in **build/*.csv** that can be posteprocessed by [plot_cpp_results](./plotting/plot_cpp_results.ipynb). 
 
 ## Corrigendum 
 

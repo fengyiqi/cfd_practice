@@ -11,7 +11,7 @@ class SymmetricBoundaryCondition : public BoundaryCondition {
 public:
     SymmetricBoundaryCondition() = default;
     ~SymmetricBoundaryCondition() = default;
-    void Apply(double (&buffer)[FI::PN()][GI::TCX()]) override;
+    void Apply(double (&buffer)[FI::PN()][GI::TCX()], unsigned int state = States::Primitives) override;
 };
 
 #endif

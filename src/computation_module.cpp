@@ -19,7 +19,7 @@ void ComputationModule::UpdateRightHandSide() {
 void ComputationModule::TimeIntegration() {
     for (unsigned int stage = 0; stage < runge_kutta_3_.GetTotalStages(); stage++){
         runge_kutta_3_.Advance(stage, block_);
-        block_.boundary_condition_->Apply(block_.conservative_buffer_next_);
+        block_.boundary_condition_.Apply(block_.conservative_buffer_next_, States::Conservatives);
     }
 }
 

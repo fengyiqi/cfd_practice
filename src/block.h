@@ -2,6 +2,8 @@
 #define BLOCK_H
 
 #include "initial_condition/case_parameters.h"
+#include "user_specification.h"
+#include "boundary_condition/boundary_condition.h"
 #include <memory>
 
 class Block {
@@ -17,12 +19,11 @@ public:
 
     double rhs_hand_side_[FI::CN()][GI::ICX()];
     double cell_face_flux_temp_[FI::CN()][GI::ICX()+1];
-    std::shared_ptr<BoundaryCondition>& boundary_condition_;
-
+    BoundaryCondition& boundary_condition_;
 
 public:
     Block() = delete;
-    explicit Block(std::shared_ptr<CaseSpecification>& case_spec, std::shared_ptr<BoundaryCondition>& boundary);
+    explicit Block(CaseSpecification& case_spec);
     ~Block() = default;
     void ConvertPrimitiveToConservativeStates();
     void ConvertConservativeToPrimitiveStates();

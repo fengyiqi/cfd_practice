@@ -6,22 +6,32 @@
 #include "solvers/hllc_riemann_solver.h"
 #include "solvers/rusanov_riemann_solver.h"
 #include "output.h"
+#include "initial_condition/case_parameters.h"
+
 #include <iostream>
 #include <string>
 #include <memory>
 
+
 int main() {
-    std::shared_ptr<CaseSpecification> sod_shock_tube = std::make_shared<SodShockTube>();
-    std::shared_ptr<BoundaryCondition> boundary_condition = std::make_shared<SymmetricBoundaryCondition>();
-    Block block(sod_shock_tube, boundary_condition);
+
     HllcRiemannSolver riemann_solver;
     RungeKutta3 runge_kutta_3;
 
-    ComputationModule computation_module(block, riemann_solver, runge_kutta_3);
-    computation_module.Solve();
+    SodShockTube sod_shock_tube;
+    Block sod_shock_tube_block(sod_shock_tube);
+    ComputationModule computation_module1(sod_shock_tube_block, riemann_solver, runge_kutta_3);
+    computation_module1.Solve();
+    OutputWriter csv_writer1(sod_shock_tube_block, "sod.csv");
+    csv_writer1.WriteCSV();
 
-    OutputWriter csv_writer(block, "sod.csv");
-    csv_writer.WriteCSV();
+    ShuOsher shu_osher;
+    Block shu_osher_block(shu_osher);
+    ComputationModule computation_module2(shu_osher_block, riemann_solver, runge_kutta_3);
+    computation_module2.Solve();
+    OutputWriter csv_writer2(shu_osher_block, "shu.csv");
+    csv_writer2.WriteCSV();
+
 
     return 0;
 }

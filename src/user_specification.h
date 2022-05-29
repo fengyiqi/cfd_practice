@@ -3,7 +3,7 @@
 
 class GridInformation {
 
-    static constexpr unsigned int internal_cells = 200;
+    static constexpr unsigned int internal_cells = 500;
     static constexpr unsigned int ghost_cells = 4;
     static constexpr unsigned int total_cells = 2 * ghost_cells + internal_cells;
 
@@ -29,6 +29,11 @@ public:
 };
 
 using GI = GridInformation;
+
+enum States {
+    Primitives,
+    Conservatives
+};
 
 enum ConservativePool {
     Mass,

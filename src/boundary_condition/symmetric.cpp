@@ -4,7 +4,8 @@
 
 #include "symmetric.h"
 
-void SymmetricBoundaryCondition::Apply(double (&buffer)[FI::PN()][GI::TCX()]) {
+void SymmetricBoundaryCondition::Apply(double (&buffer)[FI::PN()][GI::TCX()], unsigned int state) {
+    (void)state;
     for (unsigned int i = 0; i < FI::PN(); i++) {
         // update left side
         for (unsigned int j = 0; j < GI::GCX(); j++)

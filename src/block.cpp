@@ -1,19 +1,17 @@
 #include "block.h"
 #include <iostream>
 
-Block::Block(std::shared_ptr<CaseSpecification>& case_spec, std::shared_ptr<BoundaryCondition>& boundary) :
-cell_size_((case_spec->x_end - case_spec->x_start) / GI::ICX()),
-gamma_(case_spec->gamma),
-t_end_(case_spec->t_end),
-t_step_(case_spec->t_step),
-boundary_condition_(boundary)
+Block::Block(CaseSpecification& case_spec) :
+cell_size_((case_spec.x_end_ - case_spec.x_start_) / GI::ICX()),
+gamma_(case_spec.GetGamma()),
+t_end_(case_spec.GetTEnd()),
+t_step_(case_spec.GetTStep()),
+boundary_condition_(case_spec.GetBoundaryCondition())
 {
-
-    case_spec->DefineCoordinate(x_coordinate_buffer_);
-    case_spec->DefineInitialPrimitiveStates(x_coordinate_buffer_, primitive_buffer_);
-    boundary_condition_->Apply(primitive_buffer_);
+    case_spec.DefineCoordinate(x_coordinate_buffer_);
+    case_spec.DefineInitialPrimitiveStates(x_coordinate_buffer_, primitive_buffer_);
+    boundary_condition_.Apply(primitive_buffer_, States::Primitives);
     ConvertPrimitiveToConservativeStates();
-//    boundary_condition_->Apply(conservative_buffer_);
 
     for (unsigned int cs = 0; cs < FI::CN(); cs++)
         for (unsigned int i = 0; i < GI::ICX(); i++) {

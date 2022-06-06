@@ -6,7 +6,8 @@ cell_size_((case_spec.x_end_ - case_spec.x_start_) / GI::ICX()),
 gamma_(case_spec.GetGamma()),
 t_end_(case_spec.GetTEnd()),
 t_step_(case_spec.GetTStep()),
-boundary_condition_(case_spec.GetBoundaryCondition())
+boundary_condition_(case_spec.GetBoundaryCondition()),
+eos_(case_spec.GetEquationOfState())
 {
     case_spec.DefineCoordinate(x_coordinate_buffer_);
     case_spec.DefineInitialPrimitiveStates(x_coordinate_buffer_, primitive_buffer_);

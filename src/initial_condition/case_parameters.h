@@ -8,6 +8,7 @@
 #include "boundary_condition/symmetric.h"
 #include "boundary_condition/fixed_value.h"
 #include <cmath>
+#include "eos/stiffened_gas.h"
 
 struct CaseSpecification {
 
@@ -19,6 +20,7 @@ struct CaseSpecification {
     virtual ~CaseSpecification() = default;
 
     virtual BoundaryCondition& GetBoundaryCondition() = 0;
+    virtual EquationOfState& GetEquationOfState() = 0;
     virtual double GetTStart() const = 0;
     virtual double GetTEnd() const = 0;
     virtual double GetTStep() const = 0;
@@ -42,11 +44,14 @@ struct SodShockTube : public CaseSpecification {
     static constexpr double x_end = 1.0;
     static constexpr double gamma = 1.4;
     SymmetricBoundaryCondition boundary_condition;
+    StiffendGas eos;
 
-    SodShockTube() : CaseSpecification(x_start, x_end) {}
+    SodShockTube() : CaseSpecification(x_start, x_end), eos(gamma) {}
     ~SodShockTube() = default;
 
     BoundaryCondition& GetBoundaryCondition() { return boundary_condition; };
+    EquationOfState& GetEquationOfState() { return eos; }
+
     double GetTStart() const { return t_start; }
     double GetTEnd() const { return t_end; }
     double GetTStep() const { return t_step; }
@@ -87,11 +92,13 @@ struct ShuOsher : public CaseSpecification {
         {3.857143, 2.629369, 10.33333},
         {0.9735296499804454, 0.0, 1.0}
     );
+    StiffendGas eos;
 
-    ShuOsher() : CaseSpecification(x_start, x_end) {}
+    ShuOsher() : CaseSpecification(x_start, x_end), eos(gamma) {}
     ~ShuOsher() = default;
 
     BoundaryCondition& GetBoundaryCondition() { return boundary_condition; };
+    EquationOfState& GetEquationOfState() { return eos; }
     double GetTStart() const { return t_start; }
     double GetTEnd() const { return t_end; }
     double GetTStep() const { return t_step; }

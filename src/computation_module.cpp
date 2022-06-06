@@ -10,7 +10,7 @@ ComputationModule::ComputationModule(Block& block, HllcRiemannSolver& riemann_so
 {}
 
 void ComputationModule::UpdateRightHandSide() {
-    riemann_solver_.ComputeCellFaceFlux(block_.conservative_buffer_, block_.cell_face_flux_temp_);
+    riemann_solver_.ComputeCellFaceFlux();
     for (unsigned int cs = 0; cs < FI::CN(); cs++)
         for (unsigned int i = 0; i < GI::ICX(); i++)
             block_.rhs_hand_side_[cs][i] = - (block_.cell_face_flux_temp_[cs][i+1] - block_.cell_face_flux_temp_[cs][i]) / block_.cell_size_;

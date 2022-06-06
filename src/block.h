@@ -5,6 +5,7 @@
 #include "user_specification.h"
 #include "boundary_condition/boundary_condition.h"
 #include <memory>
+#include "eos/equation_of_state.h"
 
 class Block {
 public:
@@ -20,6 +21,7 @@ public:
     double rhs_hand_side_[FI::CN()][GI::ICX()];
     double cell_face_flux_temp_[FI::CN()][GI::ICX()+1];
     BoundaryCondition& boundary_condition_;
+    EquationOfState& eos_;
 
 public:
     Block() = delete;
@@ -27,6 +29,7 @@ public:
     ~Block() = default;
     void ConvertPrimitiveToConservativeStates();
     void ConvertConservativeToPrimitiveStates();
+    double ConvertConservativesToFlux(const double (&conservatives)[FI::CN()], const unsigned int& state);
 };
 
 #endif

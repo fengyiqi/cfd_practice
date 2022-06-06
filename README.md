@@ -7,8 +7,8 @@ The corrigendum of its paper, [CFD Julia: A Learning Module Structuring an Intro
 Personally, I am more interested in compressible flow solvers. Currently, the tutorials untill Rusanov solver have been implemented. Incompressible flow solvers may be implemented in the future.
 
 Note:
- - most recent updates can be found in branch/basic
- - GitHub supports LaTeX mathematical expressions, finally!
+ - most recent updates can be found in branch/basic.
+ - GitHub supports LaTeX mathematical expressions, finally! However, it doesn't work as expected. Please refer to corresponding jupyter notebook for Corrigendum.
 
 ## Content
 - [01. 1D heat equation: Forward time central space (FTCS) scheme](./jupyter/01_Heat_Equation_FTCS/ftcs.ipynb)

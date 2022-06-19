@@ -5,7 +5,7 @@
 #include "block.h"
 
 class RungeKutta3 {
-    unsigned int total_stages_ = 1;
+    unsigned int total_stages_ = 3;
     static constexpr std::array<std::array<double, 3>, 3> coef_= {{
         {1.0,       0.0,       1.0      },
         {0.75,      0.25,      0.25     },

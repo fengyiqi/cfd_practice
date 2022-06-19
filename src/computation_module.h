@@ -9,7 +9,6 @@
 class ComputationModule{
     Block& block_;
     HllcRiemannSolver& riemann_solver_;
-    // RusanovRiemannSolver& riemann_solver_;
     RungeKutta3& runge_kutta_3_;
     double start_time_;
     

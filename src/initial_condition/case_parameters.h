@@ -10,23 +10,35 @@
 #include <cmath>
 #include "eos/stiffened_gas.h"
 
-struct CaseSpecification {
+class CaseSpecification {
 
+    // define the x length
     double x_start_ = 0.0;
     double x_end_ = 0.0;
+    // define time constrol
+    double t_start_ = 0.0;
+    double t_end_ = 0.0;
+    double t_step_ = 0.0;
+    // define gamma
+    double gamma_ = 0.0;
     
+public:
     CaseSpecification() = delete;
-    CaseSpecification(double x_start, double x_end) : x_start_(x_start), x_end_(x_end) {};
+    CaseSpecification(const double x_start, const double x_end, const double t_start, const double t_end, const double t_step, const double gamma)
+                    : x_start_(x_start),    x_end_(x_end),      t_start_(t_start),    t_end_(t_end),      t_step_(t_step),     gamma_(gamma) {};
     virtual ~CaseSpecification() = default;
-
+    // define boundary condition
     virtual BoundaryCondition& GetBoundaryCondition() = 0;
+    // define equation of state
     virtual EquationOfState& GetEquationOfState() = 0;
-    virtual double GetTStart() const = 0;
-    virtual double GetTEnd() const = 0;
-    virtual double GetTStep() const = 0;
-    virtual double GetGamma() const = 0;
+    virtual void DefineInitialPrimitiveStates(const double (&x)[GI::TCX()], double (&primitives)[FI::PN()][GI::TCX()]) const = 0;
 
-    virtual void DefineInitialPrimitiveStates(const double (&x)[GI::TCX()], double (&primitives)[FI::PN()][GI::TCX()]) = 0;
+    virtual inline double GetXStart() const { return x_start_; }
+    virtual inline double GetXEnd() const { return x_end_; }
+    virtual inline double GetTStart() const { return t_start_; };
+    virtual inline double GetTEnd() const { return t_end_; };
+    virtual inline double GetTStep() const { return t_step_; };
+    virtual inline double GetGamma() const { return gamma_; };
     virtual void DefineCoordinate(double (&x)[GI::TCX()]) const {
         double cell_size = (x_end_ - x_start_) / GI::ICX();
         double x_start_cell_center = cell_size * 0.5;
@@ -36,100 +48,84 @@ struct CaseSpecification {
     }
 };
 
-struct SodShockTube : public CaseSpecification {
+class SodShockTube : public CaseSpecification {
+    // define the x length
+    static constexpr double x_start = 0.0;
+    static constexpr double x_end = 1.0;
+    // define time constrol
     static constexpr double t_start = 0.0;
     static constexpr double t_end = 0.2;
     static constexpr double t_step = 0.0001;
-    static constexpr double x_start = 0.0;
-    static constexpr double x_end = 1.0;
+    // define gamma
     static constexpr double gamma = 1.4;
     SymmetricBoundaryCondition boundary_condition;
-    StiffendGas eos;
-
-    SodShockTube() : CaseSpecification(x_start, x_end), eos(gamma) {}
+    StiffendGas eos = StiffendGas(gamma);
+public:
+    SodShockTube() : CaseSpecification(x_start, x_end, t_start, t_end, t_step, gamma) {}
     ~SodShockTube() = default;
 
     BoundaryCondition& GetBoundaryCondition() { return boundary_condition; };
     EquationOfState& GetEquationOfState() { return eos; }
 
-    double GetTStart() const { return t_start; }
-    double GetTEnd() const { return t_end; }
-    double GetTStep() const { return t_step; }
-    double GetGamma() const { return gamma; }
+    void DefineInitialPrimitiveStates(const double (&x)[GI::TCX()], double (&primitives)[FI::PN()][GI::TCX()]) const override {
+        for (unsigned int i = GI::FICX(); i < GI::FRGX(); i++) {
 
-    void DefineInitialPrimitiveStates(const double (&x)[GI::TCX()], double (&primitives)[FI::PN()][GI::TCX()]) override {
-        // define density
-        for (unsigned int i = GI::FICX(); i < GI::FHHX(); i++) {
+            // define density
             if (x[i] < 0.5)
-                primitives[PrimeStatePool::Density][i] = 1;
+                primitives[PIndex(FI::PrimeStateEum::Density)][i] = 1.0;
             else
-                primitives[PrimeStatePool::Density][i] = 0.125;
-        }
+                primitives[PIndex(FI::PrimeStateEum::Density)][i] = 0.125;
 
-        // define velocity
-        for (unsigned int i = GI::FICX(); i < GI::FHHX(); i++) {
-            primitives[PrimeStatePool::VelocityX][i] = 0.0;
-        }
+            // define velocity
+            primitives[PIndex(FI::PrimeStateEum::VelocityX)][i] = 0.0;
 
-        // define pressure
-        for (unsigned int i = GI::FICX(); i < GI::FHHX(); i++) {
+            // define pressure
             if (x[i] < 0.5)
-                primitives[PrimeStatePool::Pressure][i] = 1.0;
+                primitives[PIndex(FI::PrimeStateEum::Pressure)][i] = 1.0;
             else
-                primitives[PrimeStatePool::Pressure][i] = 0.1;
+                primitives[PIndex(FI::PrimeStateEum::Pressure)][i] = 0.1;
         }
     }
 };
 
-struct ShuOsher : public CaseSpecification {
+
+
+class ShuOsher : public CaseSpecification {
+    // define the x length
+    static constexpr double x_start = 0.0;
+    static constexpr double x_end = 10.0;
+    // define time constrol
     static constexpr double t_start = 0.0;
     static constexpr double t_end = 1.8;
     static constexpr double t_step = 0.0001;
-    static constexpr double x_start = 0.0;
-    static constexpr double x_end = 10.0;
+    // define gamma
     static constexpr double gamma = 1.4;
     FixedValueBoundaryCondition boundary_condition = FixedValueBoundaryCondition(
         {3.857143, 2.629369, 10.33333},
         {0.9735296499804454, 0.0, 1.0}
     );
-    StiffendGas eos;
-
-    ShuOsher() : CaseSpecification(x_start, x_end), eos(gamma) {}
+    StiffendGas eos = StiffendGas(gamma);
+public:
+    ShuOsher() : CaseSpecification(x_start, x_end, t_start, t_end, t_step, gamma) {}
     ~ShuOsher() = default;
 
     BoundaryCondition& GetBoundaryCondition() { return boundary_condition; };
     EquationOfState& GetEquationOfState() { return eos; }
-    double GetTStart() const { return t_start; }
-    double GetTEnd() const { return t_end; }
-    double GetTStep() const { return t_step; }
-    double GetGamma() const { return gamma; }
 
-    void DefineInitialPrimitiveStates(const double (&x)[GI::TCX()], double (&primitives)[FI::PN()][GI::TCX()]) override {
-        // define density
-        for (unsigned int i = GI::FICX(); i < GI::FHHX(); i++) {
-            if (x[i] < 1.0)
-                primitives[PrimeStatePool::Density][i] = 3.857143;
-            else
-                primitives[PrimeStatePool::Density][i] = 1 + 0.2 * std::sin(5 * (x[i] - 5));
-        }
-
-        // define velocity
-        for (unsigned int i = GI::FICX(); i < GI::FHHX(); i++) {
-            if (x[i] < 1.0)
-                primitives[PrimeStatePool::VelocityX][i] = 2.629369;
-            else
-                primitives[PrimeStatePool::VelocityX][i] = 0.0;
-        }
-
-        // define pressure
-        for (unsigned int i = GI::FICX(); i < GI::FHHX(); i++) {
-            if (x[i] < 1.0)
-                primitives[PrimeStatePool::Pressure][i] = 10.33333;
-            else
-                primitives[PrimeStatePool::Pressure][i] = 1.0;
+    void DefineInitialPrimitiveStates(const double (&x)[GI::TCX()], double (&primitives)[FI::PN()][GI::TCX()]) const override {
+        for (unsigned int i = GI::FICX(); i < GI::FRGX(); i++) {
+            if (x[i] < 1.0){
+                primitives[PIndex(FI::PrimeStateEum::Density)][i] = 3.857143;
+                primitives[PIndex(FI::PrimeStateEum::VelocityX)][i] = 2.629369;
+                primitives[PIndex(FI::PrimeStateEum::Pressure)][i] = 10.33333;
+            } 
+            else{
+                primitives[PIndex(FI::PrimeStateEum::Density)][i] = 1 + 0.2 * std::sin(5 * (x[i] - 5));
+                primitives[PIndex(FI::PrimeStateEum::VelocityX)][i] = 0.0;
+                primitives[PIndex(FI::PrimeStateEum::Pressure)][i] = 1.0;
+            }
         }
     }
 };
-
 
 #endif

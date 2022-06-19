@@ -11,17 +11,18 @@ ComputationModule::ComputationModule(Block& block, HllcRiemannSolver& riemann_so
 
 void ComputationModule::UpdateRightHandSide() {
     riemann_solver_.ComputeCellFaceFlux();
-    for (unsigned int cs = 0; cs < FI::CN(); cs++)
+    for (auto& e : FI::Equations)
         for (unsigned int i = 0; i < GI::ICX(); i++)
-            block_.rhs_hand_side_[cs][i] = - (block_.cell_face_flux_temp_[cs][i+1] - block_.cell_face_flux_temp_[cs][i]) / block_.cell_size_;
+            block_.rhs_hand_side_[e][i] = - (block_.cell_face_flux_temp_[e][i+1] - block_.cell_face_flux_temp_[e][i]) / block_.cell_size_;
 }
 
 void ComputationModule::TimeIntegration() {
     for (unsigned int stage = 0; stage < runge_kutta_3_.GetTotalStages(); stage++){
         runge_kutta_3_.Advance(stage, block_);
-        block_.boundary_condition_.Apply(block_.conservative_buffer_next_, States::Conservatives);
+        block_.boundary_condition_.Apply(block_.conservative_buffer_next_, FI::States::Conservatives);
     }
 }
+
 
 void ComputationModule::Solve() {
 
@@ -29,10 +30,9 @@ void ComputationModule::Solve() {
         UpdateRightHandSide();
         TimeIntegration();
         start_time_ += block_.t_step_;
-//        std::cout << start_time_ << std::endl;
-        for (unsigned int cs = 0; cs < FI::CN(); cs++)
+        for (auto& e : FI::Equations)
             for (unsigned int i = 0; i < GI::TCX(); i++)
-                block_.conservative_buffer_[cs][i] = block_.conservative_buffer_next_[cs][i];
+                block_.conservative_buffer_[e][i] = block_.conservative_buffer_next_[e][i];
     }
     block_.ConvertConservativeToPrimitiveStates();
     std::cout << "Done" <<std::endl;

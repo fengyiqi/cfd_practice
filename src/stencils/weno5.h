@@ -24,9 +24,12 @@ class WENO5 {
     static constexpr double epsilon_ = 1e-6;
 
     static constexpr unsigned int stencil_size_ = 5;
+    static constexpr unsigned int reconstruction_start_ = GI::FICX() - 3;
 public:
     WENO5() = default;
     ~WENO5() = default;
+    static constexpr unsigned int GetStart() { return reconstruction_start_; }
+    static constexpr unsigned int GetStencilSize() { return stencil_size_; }
 
     constexpr double Apply(const double (&array)[stencil_size_]) {
 
@@ -54,7 +57,6 @@ public:
                w1 * (stencil_coef_10_ * v1 + stencil_coef_11_ * v2 + stencil_coef_12_ * v3) + 
                w2 * (stencil_coef_20_ * v2 + stencil_coef_21_ * v3 + stencil_coef_22_ * v4);
     }
-    void Test();
 };
 
 #endif

@@ -9,10 +9,10 @@ public:
     StiffendGas() = delete;
     explicit StiffendGas(const double gamma) : EquationOfState(gamma) {}
     explicit StiffendGas(const double gamma, const double background_pressure) : EquationOfState(gamma, background_pressure) {}
-    double ComputePressure(const double rho, const double e) {
+    inline double ComputePressure(const double rho, const double e) {
         return (gamma_ - 1) * rho * e - gamma_ * background_pressure_;
     }
-    double ComputeSpeedOfSound(const double rho, const double pressure) {
+    inline double ComputeSpeedOfSound(const double rho, const double pressure) {
         return std::sqrt(gamma_ * (pressure + background_pressure_) / rho);
     }
 };

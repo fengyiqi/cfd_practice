@@ -16,8 +16,6 @@ int main()
 {   
     RungeKutta3 runge_kutta_3;
     {
-        
-
         SodShockTube sod_shock_tube;
         Block sod_shock_tube_block(sod_shock_tube);
         HllcRiemannSolver riemann_solver(sod_shock_tube_block);

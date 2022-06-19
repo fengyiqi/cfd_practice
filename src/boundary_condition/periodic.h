@@ -11,7 +11,7 @@ class PeriodicBoundaryCondition : public BoundaryCondition {
 public:
     PeriodicBoundaryCondition() = default;
     ~PeriodicBoundaryCondition() = default;
-    void Apply(double (&buffer)[FI::PN()][GI::TCX()], unsigned int state = States::Primitives) override;
+    void Apply(double (&buffer)[FI::PN()][GI::TCX()], FI::States state = FI::States::Primitives) override;
 };
 
 #endif

@@ -2,46 +2,44 @@
 #include <iostream>
 
 FixedValueBoundaryCondition::FixedValueBoundaryCondition(const double (&left_side)[FI::PN()], const double (&right_side)[FI::PN()]) {
-    for (unsigned int pr = 0; pr < FI::PN(); pr++) {
-        left_primitives_[pr]  = left_side[pr];
-        right_primitives_[pr] = right_side[pr];
+    for (auto& p : FI::PrimeStates) {
+        left_primitives_[p]  = left_side[p];
+        right_primitives_[p] = right_side[p];
     }
     // temporary solution
     double gamma = 1.4;
     // mass
-    left_conservatives_[ConservativePool::Mass] = left_side[PrimeStatePool::Density];
-    right_conservatives_[ConservativePool::Mass] = right_side[PrimeStatePool::Density];
+    left_conservatives_[EIndex(FI::EquationEum::Mass)] = left_side[PIndex(FI::PrimeStateEum::Density)];
+    right_conservatives_[EIndex(FI::EquationEum::Mass)] = right_side[PIndex(FI::PrimeStateEum::Density)];
     // momentum
-    left_conservatives_[ConservativePool::MomentumX] = left_side[PrimeStatePool::Density] * left_side[PrimeStatePool::VelocityX];
-    right_conservatives_[ConservativePool::MomentumX] = right_side[PrimeStatePool::Density] * right_side[PrimeStatePool::VelocityX];
+    left_conservatives_[EIndex(FI::EquationEum::MomentumX)] = left_side[PIndex(FI::PrimeStateEum::Density)] * left_side[PIndex(FI::PrimeStateEum::VelocityX)];
+    right_conservatives_[EIndex(FI::EquationEum::MomentumX)] = right_side[PIndex(FI::PrimeStateEum::Density)] * right_side[PIndex(FI::PrimeStateEum::VelocityX)];
     // energy
-    left_conservatives_[ConservativePool::Energy] = left_side[PrimeStatePool::Density] * (left_side[PrimeStatePool::Pressure] / (left_side[PrimeStatePool::Density] * (gamma - 1.0)) +
-                                                        0.5 * left_side[PrimeStatePool::VelocityX] * left_side[PrimeStatePool::VelocityX]);
-    right_conservatives_[ConservativePool::Energy] = right_side[PrimeStatePool::Density] * (right_side[PrimeStatePool::Pressure] / (right_side[PrimeStatePool::Density] * (gamma - 1.0)) +
-                                                        0.5 * right_side[PrimeStatePool::VelocityX] * right_side[PrimeStatePool::VelocityX]);
-
-
+    left_conservatives_[EIndex(FI::EquationEum::Energy)] = left_side[PIndex(FI::PrimeStateEum::Pressure)] / (gamma - 1.0) // rho*e
+                                                           + 0.5 * left_side[PIndex(FI::PrimeStateEum::Density)] * left_side[PIndex(FI::PrimeStateEum::VelocityX)] * left_side[PIndex(FI::PrimeStateEum::VelocityX)]; // rho*uu/2
+    right_conservatives_[EIndex(FI::EquationEum::Energy)] = right_side[PIndex(FI::PrimeStateEum::Pressure)] / (gamma - 1.0) // rho*e
+                                                           + 0.5 * right_side[PIndex(FI::PrimeStateEum::Density)] * right_side[PIndex(FI::PrimeStateEum::VelocityX)] * right_side[PIndex(FI::PrimeStateEum::VelocityX)]; // rho*uu/2
 }
 
-void FixedValueBoundaryCondition::Apply(double (&buffer)[FI::PN()][GI::TCX()], unsigned int state) {
-    if (state == States::Primitives) {
-        for (unsigned int i = 0; i < FI::PN(); i++) {
+void FixedValueBoundaryCondition::Apply(double (&buffer)[FI::PN()][GI::TCX()], FI::States state) {
+    if (state == FI::States::Primitives) {
+        for (auto& p : FI::PrimeStates) {
             // update left side
-            for (unsigned int j = 0; j < GI::GCX(); j++)
-                buffer[i][j] = left_primitives_[i];
+            for (unsigned int i = 0; i < GI::GCX(); i++)
+                buffer[p][i] = left_primitives_[p];
             // update right side
-            for (unsigned int j = GI::FHHX(); j < GI::TCX(); j++)
-                buffer[i][j] = right_primitives_[i];
+            for (unsigned int i = GI::FRGX(); i < GI::TCX(); i++)
+                buffer[p][i] = right_primitives_[p];
         }
     }
     else {  // conservative states
-        for (unsigned int i = 0; i < FI::CN(); i++) {
+        for (auto& e : FI::Equations) {
             // update left side
-            for (unsigned int j = 0; j < GI::GCX(); j++)
-                buffer[i][j] = left_conservatives_[i];
+            for (unsigned int i = 0; i < GI::GCX(); i++)
+                buffer[e][i] = left_conservatives_[e];
             // update right side
-            for (unsigned int j = GI::FHHX(); j < GI::TCX(); j++)
-                buffer[i][j] = right_conservatives_[i];
+            for (unsigned int i = GI::FRGX(); i < GI::TCX(); i++)
+                buffer[e][i] = right_conservatives_[e];
         }
     }
 }

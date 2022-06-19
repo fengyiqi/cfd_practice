@@ -6,7 +6,7 @@ class BoundaryCondition {
 public:
     BoundaryCondition() = default;
     virtual ~BoundaryCondition() = default;
-    virtual void Apply(double (&buffer)[FI::PN()][GI::TCX()], unsigned int state = States::Primitives) = 0;
+    virtual void Apply(double (&buffer)[FI::PN()][GI::TCX()], FI::States state = FI::States::Primitives) = 0;
 };
 
 #endif

@@ -3,11 +3,12 @@
 
 #include "user_specification.h"
 #include "stencils/weno5.h"
+#include "stencils/first_order.h"
 #include "block.h"
 
+
 class HllcRiemannSolver {
-    static constexpr unsigned int reconstruction_start_ = GI::FICX() - 3;
-    WENO5 weno5_;
+    FirstOrder stencil_;
     Block& block_;
 public:
     HllcRiemannSolver() = delete;

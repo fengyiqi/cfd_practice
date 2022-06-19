@@ -3,18 +3,18 @@
 
 #include "user_specification.h"
 #include "stencils/weno5.h"
+#include "stencils/first_order.h"
+#include "block.h"
 
 class RusanovRiemannSolver {
-    static constexpr unsigned int reconstruction_start_ = GI::FICX() - 3;
-    static constexpr unsigned int reconstruction_end_   = reconstruction_start_ + GI::ICX() + 1;
-    WENO5 weno5_;
-    // temporary solution
-    static constexpr double gamma_ = 1.4;
+    WENO5 stencil_;
+    Block& block_;
 public:
-    RusanovRiemannSolver();
+    RusanovRiemannSolver() = delete;
+    RusanovRiemannSolver(Block& block) : block_(block) {};
     ~RusanovRiemannSolver() = default;
-    double ConvertConservativesToFlux(const double (&conservatives)[FI::CN()], const unsigned int& state);
-    void ComputeCellFaceFlux(const double (&conservatives)[FI::CN()][GI::TCX()], double (&flux)[FI::CN()][GI::ICX() + 1]);
+    double ConvertConservativesToFlux(const double (&conservatives)[FI::EN()], const std::underlying_type<FI::EquationEum>::type equation);
+    void ComputeCellFaceFlux(const double (&conservatives)[FI::EN()][GI::TCX()], double (&flux)[FI::EN()][GI::ICX() + 1]);
 };
 
 #endif

@@ -1,6 +1,6 @@
-# CFD_Julia Python and C++ Implementation
+# CFD_Julia - Python and C++ Implementation
 
-This repo is the Python implementation of [CFD_Julia](https://github.com/surajp92/CFD_Julia).
+This repo is the Python and C++ implementation of [CFD_Julia](https://github.com/surajp92/CFD_Julia).
 
 The corrigendum of its paper, [CFD Julia: A Learning Module Structuring an Introductory Course on Computational Fluid Dynamics](https://www.mdpi.com/2311-5521/4/3/159), is also provided.
 
@@ -8,7 +8,7 @@ Personally, I am more interested in compressible flow solvers. Currently, the tu
 
 Note:
  - most recent updates can be found in branch/basic.
- - GitHub supports LaTeX mathematical expressions, finally! However, it doesn't work as expected. Please refer to corresponding jupyter notebook for Corrigendum.
+ - GitHub supports LaTeX mathematical expressions. However, it doesn't work as expected. Please refer to corresponding jupyter notebook for Corrigendum.
 
 ## Content
 - [01. 1D heat equation: Forward time central space (FTCS) scheme](./jupyter/01_Heat_Equation_FTCS/ftcs.ipynb)

@@ -10,10 +10,10 @@ void OutputWriter::WriteCSV() {
     csv_file << "x,density,velocityx,pressure,energy" << std::endl;
     for (unsigned int i = 0; i < GI::TCX(); i++){
         csv_file << block_.x_coordinate_buffer_[i] << ",";
-        csv_file << block_.primitive_buffer_[PIndex(FI::PrimeStateEum::Density)][i] << ",";
-        csv_file << block_.primitive_buffer_[PIndex(FI::PrimeStateEum::VelocityX)][i] << ",";
-        csv_file << block_.primitive_buffer_[PIndex(FI::PrimeStateEum::Pressure)][i] << ",";
-        csv_file << block_.conservative_buffer_[EIndex(FI::EquationEum::Energy)][i] << std::endl;
+        csv_file << block_.primitive_buffer_[PIndex(FI::PrimeStateEnum::Density)][i] << ",";
+        csv_file << block_.primitive_buffer_[PIndex(FI::PrimeStateEnum::VelocityX)][i] << ",";
+        csv_file << block_.primitive_buffer_[PIndex(FI::PrimeStateEnum::Pressure)][i] << ",";
+        csv_file << block_.conservative_buffer_[EIndex(FI::EquationEnum::Energy)][i] << std::endl;
     }
     csv_file.close();
 }

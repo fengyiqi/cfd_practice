@@ -1,5 +1,4 @@
 #include "block.h"
-#include <iostream>
 
 Block::Block(CaseSpecification& case_spec) :
 cell_size_((case_spec.GetXEnd() - case_spec.GetXStart()) / GI::ICX()),
@@ -26,19 +25,19 @@ eos_(case_spec.GetEquationOfState())
 
 void Block::ConvertPrimitiveToConservativeStates() {
     for (unsigned int i = 0; i < GI::TCX(); i++) {
-        conservative_buffer_[EIndex(FI::EquationEum::Mass)][i]      = primitive_buffer_[PIndex(FI::PrimeStateEum::Density)][i];
-        conservative_buffer_[EIndex(FI::EquationEum::MomentumX)][i] = primitive_buffer_[PIndex(FI::PrimeStateEum::Density)][i] * primitive_buffer_[PIndex(FI::PrimeStateEum::VelocityX)][i];
-        conservative_buffer_[EIndex(FI::EquationEum::Energy)][i]    = primitive_buffer_[PIndex(FI::PrimeStateEum::Density)][i] *
-                                                        (primitive_buffer_[PIndex(FI::PrimeStateEum::Pressure)][i] / (primitive_buffer_[PIndex(FI::PrimeStateEum::Density)][i] * (gamma_ - 1.0)) +
-                                                        0.5 * primitive_buffer_[PIndex(FI::PrimeStateEum::VelocityX)][i] * primitive_buffer_[PIndex(FI::PrimeStateEum::VelocityX)][i]);
+        conservative_buffer_[EIndex(FI::EquationEnum::Mass)][i]      = primitive_buffer_[PIndex(FI::PrimeStateEnum::Density)][i];
+        conservative_buffer_[EIndex(FI::EquationEnum::MomentumX)][i] = primitive_buffer_[PIndex(FI::PrimeStateEnum::Density)][i] * primitive_buffer_[PIndex(FI::PrimeStateEnum::VelocityX)][i];
+        conservative_buffer_[EIndex(FI::EquationEnum::Energy)][i]    = primitive_buffer_[PIndex(FI::PrimeStateEnum::Density)][i] *
+                                                        (primitive_buffer_[PIndex(FI::PrimeStateEnum::Pressure)][i] / (primitive_buffer_[PIndex(FI::PrimeStateEnum::Density)][i] * (gamma_ - 1.0)) +
+                                                        0.5 * primitive_buffer_[PIndex(FI::PrimeStateEnum::VelocityX)][i] * primitive_buffer_[PIndex(FI::PrimeStateEnum::VelocityX)][i]);
     }
 }
 
 void Block::ConvertConservativeToPrimitiveStates() {
     for (unsigned int i = 0; i < GI::TCX(); i++) {
-        primitive_buffer_[PIndex(FI::PrimeStateEum::Density)][i] = conservative_buffer_[EIndex(FI::EquationEum::Mass)][i];
-        primitive_buffer_[PIndex(FI::PrimeStateEum::VelocityX)][i] = conservative_buffer_[EIndex(FI::EquationEum::MomentumX)][i] / conservative_buffer_[EIndex(FI::EquationEum::Mass)][i];
-        primitive_buffer_[PIndex(FI::PrimeStateEum::Pressure)][i] = (gamma_ - 1.0) * (conservative_buffer_[EIndex(FI::EquationEum::Energy)][i] -
-                                                  0.5 * conservative_buffer_[EIndex(FI::EquationEum::MomentumX)][i] * conservative_buffer_[EIndex(FI::EquationEum::MomentumX)][i] / conservative_buffer_[EIndex(FI::EquationEum::Mass)][i]);
+        primitive_buffer_[PIndex(FI::PrimeStateEnum::Density)][i] = conservative_buffer_[EIndex(FI::EquationEnum::Mass)][i];
+        primitive_buffer_[PIndex(FI::PrimeStateEnum::VelocityX)][i] = conservative_buffer_[EIndex(FI::EquationEnum::MomentumX)][i] / conservative_buffer_[EIndex(FI::EquationEnum::Mass)][i];
+        primitive_buffer_[PIndex(FI::PrimeStateEnum::Pressure)][i] = (gamma_ - 1.0) * (conservative_buffer_[EIndex(FI::EquationEnum::Energy)][i] -
+                                                  0.5 * conservative_buffer_[EIndex(FI::EquationEnum::MomentumX)][i] * conservative_buffer_[EIndex(FI::EquationEnum::MomentumX)][i] / conservative_buffer_[EIndex(FI::EquationEnum::Mass)][i]);
     }
 }

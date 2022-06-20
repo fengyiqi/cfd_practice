@@ -5,7 +5,7 @@
 
 class GridInformation {
 
-    static constexpr unsigned int internal_cells = 3000;
+    static constexpr unsigned int internal_cells = 200;
     static constexpr unsigned int ghost_cells = 4;
     static constexpr unsigned int total_cells = 2 * ghost_cells + internal_cells;
 
@@ -39,28 +39,28 @@ namespace FieldInformation{
         Conservatives
     };
     // define the valid equations
-    enum class EquationEum : unsigned int{
+    enum class EquationEnum : unsigned int{
         Mass,
         MomentumX,
         Energy,
     };
     // define the valid primetive states
-    enum class PrimeStateEum : unsigned int{
+    enum class PrimeStateEnum : unsigned int{
         Density,
         VelocityX,
         Pressure,
     };
     // assemble all valid equations into an array for range loop
-    constexpr std::array<std::underlying_type<EquationEum>::type, 3> Equations{
-        static_cast<std::underlying_type<EquationEum>::type>(EquationEum::Mass),
-        static_cast<std::underlying_type<EquationEum>::type>(EquationEum::MomentumX),
-        static_cast<std::underlying_type<EquationEum>::type>(EquationEum::Energy)
+    constexpr std::array<std::underlying_type<EquationEnum>::type, 3> Equations{
+        static_cast<std::underlying_type<EquationEnum>::type>(EquationEnum::Mass),
+        static_cast<std::underlying_type<EquationEnum>::type>(EquationEnum::MomentumX),
+        static_cast<std::underlying_type<EquationEnum>::type>(EquationEnum::Energy)
     };
     // assemble all valid prime states into an array for range loop
-    constexpr std::array<std::underlying_type<PrimeStateEum>::type, 3> PrimeStates{
-        static_cast<std::underlying_type<PrimeStateEum>::type>(PrimeStateEum::Density),
-        static_cast<std::underlying_type<PrimeStateEum>::type>(PrimeStateEum::VelocityX),
-        static_cast<std::underlying_type<PrimeStateEum>::type>(PrimeStateEum::Pressure)
+    constexpr std::array<std::underlying_type<PrimeStateEnum>::type, 3> PrimeStates{
+        static_cast<std::underlying_type<PrimeStateEnum>::type>(PrimeStateEnum::Density),
+        static_cast<std::underlying_type<PrimeStateEnum>::type>(PrimeStateEnum::VelocityX),
+        static_cast<std::underlying_type<PrimeStateEnum>::type>(PrimeStateEnum::Pressure)
     };
     // get the numbers
     constexpr unsigned int EN() { return Equations.size(); }
@@ -70,11 +70,11 @@ namespace FieldInformation{
 
 namespace FI = FieldInformation;
 
-constexpr std::underlying_type<FI::EquationEum>::type EIndex(const FI::EquationEum e) {
-    return static_cast<std::underlying_type<FI::EquationEum>::type>( e );
+constexpr std::underlying_type<FI::EquationEnum>::type EIndex(const FI::EquationEnum e) {
+    return static_cast<std::underlying_type<FI::EquationEnum>::type>( e );
 }
-constexpr std::underlying_type<FI::PrimeStateEum>::type PIndex(const FI::PrimeStateEum p) {
-    return static_cast<std::underlying_type<FI::PrimeStateEum>::type>( p );
+constexpr std::underlying_type<FI::PrimeStateEnum>::type PIndex(const FI::PrimeStateEnum p) {
+    return static_cast<std::underlying_type<FI::PrimeStateEnum>::type>( p );
 }
 
 #endif

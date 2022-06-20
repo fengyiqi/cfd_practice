@@ -72,18 +72,18 @@ public:
 
             // define density
             if (x[i] < 0.5)
-                primitives[PIndex(FI::PrimeStateEum::Density)][i] = 1.0;
+                primitives[PIndex(FI::PrimeStateEnum::Density)][i] = 1.0;
             else
-                primitives[PIndex(FI::PrimeStateEum::Density)][i] = 0.125;
+                primitives[PIndex(FI::PrimeStateEnum::Density)][i] = 0.125;
 
             // define velocity
-            primitives[PIndex(FI::PrimeStateEum::VelocityX)][i] = 0.0;
+            primitives[PIndex(FI::PrimeStateEnum::VelocityX)][i] = 0.0;
 
             // define pressure
             if (x[i] < 0.5)
-                primitives[PIndex(FI::PrimeStateEum::Pressure)][i] = 1.0;
+                primitives[PIndex(FI::PrimeStateEnum::Pressure)][i] = 1.0;
             else
-                primitives[PIndex(FI::PrimeStateEum::Pressure)][i] = 0.1;
+                primitives[PIndex(FI::PrimeStateEnum::Pressure)][i] = 0.1;
         }
     }
 };
@@ -115,14 +115,14 @@ public:
     void DefineInitialPrimitiveStates(const double (&x)[GI::TCX()], double (&primitives)[FI::PN()][GI::TCX()]) const override {
         for (unsigned int i = GI::FICX(); i < GI::FRGX(); i++) {
             if (x[i] < 1.0){
-                primitives[PIndex(FI::PrimeStateEum::Density)][i] = 3.857143;
-                primitives[PIndex(FI::PrimeStateEum::VelocityX)][i] = 2.629369;
-                primitives[PIndex(FI::PrimeStateEum::Pressure)][i] = 10.33333;
+                primitives[PIndex(FI::PrimeStateEnum::Density)][i] = 3.857143;
+                primitives[PIndex(FI::PrimeStateEnum::VelocityX)][i] = 2.629369;
+                primitives[PIndex(FI::PrimeStateEnum::Pressure)][i] = 10.33333;
             } 
             else{
-                primitives[PIndex(FI::PrimeStateEum::Density)][i] = 1 + 0.2 * std::sin(5 * (x[i] - 5));
-                primitives[PIndex(FI::PrimeStateEum::VelocityX)][i] = 0.0;
-                primitives[PIndex(FI::PrimeStateEum::Pressure)][i] = 1.0;
+                primitives[PIndex(FI::PrimeStateEnum::Density)][i] = 1 + 0.2 * std::sin(5 * (x[i] - 5));
+                primitives[PIndex(FI::PrimeStateEnum::VelocityX)][i] = 0.0;
+                primitives[PIndex(FI::PrimeStateEnum::Pressure)][i] = 1.0;
             }
         }
     }

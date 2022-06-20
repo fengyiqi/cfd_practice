@@ -1,7 +1,11 @@
 #ifndef WENO5_H
 #define WENO5_H
 
-class WENO5 {
+#include "stencil.h"
+
+class WENO5 : public Stencil<WENO5>{
+    friend Stencil;
+
     static constexpr double weight_0_ = 0.1;
     static constexpr double weight_1_ = 0.6;
     static constexpr double weight_2_ = 0.3;
@@ -28,10 +32,9 @@ class WENO5 {
 public:
     WENO5() = default;
     ~WENO5() = default;
-    static constexpr unsigned int GetStart() { return reconstruction_start_; }
-    static constexpr unsigned int GetStencilSize() { return stencil_size_; }
 
-    constexpr double Apply(const double (&array)[stencil_size_]) {
+private:
+    constexpr double ApplyImplementation(const double (&array)[stencil_size_]) const{
 
         const double v0 = array[0];
         const double v1 = array[1];

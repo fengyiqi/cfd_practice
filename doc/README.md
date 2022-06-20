@@ -3,7 +3,7 @@
 ## TODO
 - [x] Basic framework
 - [x] Redefine field specification parameters
-- [ ] Use template
+- [x] Use template
 - [ ] Reformat HLLC solver to less expensive formualtions
 - [ ] Implement Roe-type solver and characteristic reconstruction
 - [ ] Increase to 2D
@@ -23,3 +23,8 @@
 - implement first order reconstruction scheme
 - for case parameters, move get functions to base class
 - add more comments
+
+### Jun. 20 2022
+- use template for solvers
+- use CRTP for stencils
+- reformat main.cpp accordingly

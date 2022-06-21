@@ -2,21 +2,20 @@
 #define HLLC_RIEMANN_SOLVER_H
 
 #include "user_specification.h"
-#include "stencils/stencil.h"
 #include "block.h"
 #include <cmath>
 #include <algorithm>
 #include "utils.h"
 
-template <typename ReconstructionScheme>
+template<class ReconstructionScheme>
 class HllcRiemannSolver
 {
-    using SR = Stencil<ReconstructionScheme>;
+    ReconstructionScheme stencil_;
     Block &block_;
 
 public:
     HllcRiemannSolver() = delete;
-    HllcRiemannSolver(Block &block) : block_(block){};
+    HllcRiemannSolver(Block &block) : block_(block) {};
     ~HllcRiemannSolver() = default;
     void ComputeCellFaceFlux()
     {
@@ -26,24 +25,24 @@ public:
         double rhoR, uR, internal_eR, pR, aR;
         double SL, SR, SP, PLR;
         double Ds[3] = {0.0, 1.0, 0.0};
-        double stencil_array[SR::StencilSize()];
+        double stencil_array[stencil_.StencilSize()];
 
         for (unsigned int i = 0; i < GI::ICX() + 1; i++)
         {
             for (auto &e : FI::Equations)
             {
                 // copy appropriate number of values into stencil (from left to right)
-                for (unsigned int j = 0; j < SR::StencilSize(); j++)
+                for (unsigned int j = 0; j < stencil_.StencilSize(); j++)
                 {
-                    stencil_array[j] = block_.conservative_buffer_[e][i + SR::ReconstructionStart() + j];
+                    stencil_array[j] = block_.conservative_buffer_[e][i + stencil_.ReconstructionStart() + j];
                 }
-                reconstructed_conservatives_l[e] = StencilApplyUtils::StencilApply<ReconstructionScheme>(stencil_array);
+                reconstructed_conservatives_l[e] = stencil_.Apply(stencil_array);
                 // copy appropriate number of values into stencil (from right to left)
-                for (unsigned int j = 0; j < SR::StencilSize(); j++)
+                for (unsigned int j = 0; j < stencil_.StencilSize(); j++)
                 {
-                    stencil_array[j] = block_.conservative_buffer_[e][i + SR::ReconstructionStart() - j + SR::StencilSize()];
+                    stencil_array[j] = block_.conservative_buffer_[e][i + stencil_.ReconstructionStart() - j + stencil_.StencilSize()];
                 }
-                reconstructed_conservatives_r[e] = StencilApplyUtils::StencilApply<ReconstructionScheme>(stencil_array);
+                reconstructed_conservatives_r[e] = stencil_.Apply(stencil_array);
             }
 
             rhoL = reconstructed_conservatives_l[EIndex(FI::EquationEnum::Mass)];

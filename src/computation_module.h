@@ -5,7 +5,7 @@
 #include "time_integration/runge_kutta_3.h"
 #include <iostream>
 
-template<typename RiemannSolverType>
+template<class RiemannSolverType>
 class ComputationModule{
     Block& block_;
     RiemannSolverType riemann_solver_;
@@ -16,6 +16,7 @@ public:
     ComputationModule() = delete;
     explicit ComputationModule(Block& block):
                     block_(block),  
+                    // stencil_(stencil),
                     riemann_solver_(block_),
                     start_time_(0.0) {}
     ~ComputationModule() = default;
